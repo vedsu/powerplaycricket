@@ -55,7 +55,7 @@ for donor in donor_list:
         st.subheader(f"{donor['DonorName']}")
     # st.write(f"RegNo: {donor['RegNo']}")
     # st.write(f"Payment Mode: {donor['PaymentMode']}")
-        st.write(f"Amount: {donor['RegAmtPaid']}")
+        st.write(f"Amount: ₹ {donor['RegAmtPaid']}")
         st.caption(f"Description: {donor['AdminRemark']}")
     
         
