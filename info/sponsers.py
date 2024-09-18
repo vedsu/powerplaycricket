@@ -48,9 +48,9 @@ df_donors = pd.DataFrame(donor_list)
 
 # Display donor data in table format
 # st.dataframe(df_donors)
-col1, col3= st.columns([2,1])
 # Display individual details for each donor
 for donor in donor_list:
+    col1, col3= st.columns([2,1])
     with col1:
         st.subheader(f"{donor['DonorName']}")
     # st.write(f"RegNo: {donor['RegNo']}")
@@ -63,6 +63,11 @@ for donor in donor_list:
         st.markdown(f"""
             <div style='text-align: center;'>
                 <img src="{donor['Photo']}" style="border-radius: 50%; width:120px; height:120px; margin-top:20px; box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;">
+            </div>
+        """, unsafe_allow_html=True)
+    st.markdown(f"""
+            <div style='border-bottom:1px solid #ff9933; margin-top: 5px'>
+                
             </div>
         """, unsafe_allow_html=True)
         
