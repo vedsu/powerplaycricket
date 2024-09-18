@@ -77,6 +77,7 @@ img = Image.open(io.BytesIO(response.content))
 st.sidebar.image(img, caption="QR Code for PowerPlay Cricket " + registration_number, use_column_width=True)
 
 on = st.toggle("Click photo!")
+img_file_buffer = None
 with st.form("Sponsors Details",clear_on_submit=True):
     
     st.subheader("Registration Form")
@@ -95,8 +96,9 @@ with st.form("Sponsors Details",clear_on_submit=True):
     admin_remark = st.text_area("Description")
     submitted = st.form_submit_button(label="Register")
     if submitted:
+        filename = f"{uuid.uuid4()}"
         if img_file_buffer is not None:
-                    filename = f"{uuid.uuid4()}"
+                    
                     # Convert the image to bytes
                     image = Image.open(img_file_buffer)
                     image_bytes = BytesIO()
