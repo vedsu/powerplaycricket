@@ -92,43 +92,60 @@ with st.form("Team Details",clear_on_submit=True):
     admin_remark = st.text_area("Admin Remark")
     submitted = st.form_submit_button(label="Register")
     if submitted:
-        filename = f"{uuid.uuid4()}"
-        try:
-            bucket_name = "vedsubrandwebsite"
-            object_key = filename
-            s3_url = f"https://{bucket_name}.s3.amazonaws.com/PowerPlayCricket/player/{object_key}.png"
-            # st.session_state[f'player_{st.session_state.current_player}_photo'] = s3_url
-            photo = s3_url
-            s3_client.put_object(
-            Body=team_image, 
-            Bucket=bucket_name, 
-            Key=f'PowerPlayCricket/player/{object_key}.png'
-            )
-
-        except Exception as e:
-            s3_url = f"{str(e)}"
-        team_data = {
-        "RegNo": registration_number,
-        "TeamName": team_name,
-        "TeamLogo": s3_url,
-        "ManagerName": manager_name,
-        "CaptainName": captain_name,
-        "PaymentMode": payment_mode,
-        "RegAmtPaid": reg_amt_paid,
-        "RegAmtDue": reg_amt_due,
-        "AdminRemark": admin_remark
-        }
-
-        st.info(f"Regsitration Amount Due:{reg_amt_due}")
-        try:
-
-            collection_reg.insert_one(team_data)
-
-            st.success("Registration Successful")
-            time.sleep(5)
-            st.rerun()
-        except Exception as e:
-            st.error(f"Registration Failed, {str(e)}")
+        errors = []
+        if not team_name:
+            errors.append("Team Name is required.")
+        if not manager_name:
+            errors.append("Manager Name is required.")
+        if not captain_name:
+            errors.append("Captain Name is required.")
+        
+        # Validate logo upload
+        if not team_image:
+            errors.append("Team Logo is required.")
+        
+        # If there are errors, display them
+        if errors:
+            for error in errors:
+                st.error(error)
+        else:
+            filename = f"{uuid.uuid4()}"
+            try:
+                bucket_name = "vedsubrandwebsite"
+                object_key = filename
+                s3_url = f"https://{bucket_name}.s3.amazonaws.com/PowerPlayCricket/player/{object_key}.png"
+                # st.session_state[f'player_{st.session_state.current_player}_photo'] = s3_url
+                photo = s3_url
+                s3_client.put_object(
+                Body=team_image, 
+                Bucket=bucket_name, 
+                Key=f'PowerPlayCricket/player/{object_key}.png'
+                )
+    
+            except Exception as e:
+                s3_url = f"{str(e)}"
+            team_data = {
+            "RegNo": registration_number,
+            "TeamName": team_name,
+            "TeamLogo": s3_url,
+            "ManagerName": manager_name,
+            "CaptainName": captain_name,
+            "PaymentMode": payment_mode,
+            "RegAmtPaid": reg_amt_paid,
+            "RegAmtDue": reg_amt_due,
+            "AdminRemark": admin_remark
+            }
+    
+            st.info(f"Regsitration Amount Due:{reg_amt_due}")
+            try:
+    
+                collection_reg.insert_one(team_data)
+    
+                st.success("Registration Successful")
+                time.sleep(5)
+                st.rerun()
+            except Exception as e:
+                st.error(f"Registration Failed, {str(e)}")
 
 
     
