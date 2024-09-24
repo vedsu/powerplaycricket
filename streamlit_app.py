@@ -43,7 +43,7 @@ def login():
                 if user == ADMIN_ACCESS_KEY and password == ADMIN_SECRET_KEY:
                     st.session_state.logged_in = True
                     st.success("Login Successful")
-                    time.sleep(3)
+                    # time.sleep(3)
                     st.rerun()
                     #  home.main()
                 else: 
@@ -57,7 +57,7 @@ def logout():
         st.session_state.logged_in = False
         st.session_state.clear()
         st.info("Redirecting to access panel home! please wait....")
-        time.sleep(1)
+        # time.sleep(1)
         # if st.button("Click to access login panel"):
         st.rerun()
             # login()
