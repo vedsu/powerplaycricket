@@ -83,16 +83,18 @@ with col3:
 
 if st.session_state.player_count == 0:
     # Add "select" as the first option
-    teams = sorted(team_names)
-    with st.form("init", clear_on_submit=False):
+    teams = ["Select"]+sorted(team_names)
+    with st.container():
+    # with st.form("init", clear_on_submit=False):
+            
         st.session_state.team = st.selectbox("Select Team: ", options = teams, placeholder="Choose a team")
-        
-        st.session_state.selected_team_count = df2[df2['team'] == st.session_state.team]['count'].values[0]
+        if st.session_state.team != "Select":
+                st.session_state.selected_team_count = df2[df2['team'] == st.session_state.team]['count'].values[0]
         
         # Get the total number of players
-        st.session_state.player_count = st.number_input("Total players for team",value="min", max_value=15, min_value=st.session_state.selected_team_count, step=1)
-        if st.form_submit_button(label="regsiter"):
-            st.rerun()
+                st.session_state.player_count = st.number_input("Total players for team",value="min", max_value=15, min_value=st.session_state.selected_team_count, step=1)
+                if st.button(label="regsiter"):
+                    st.rerun()
 
 
 if st.session_state.team != "Select" and st.session_state.player_count > st.session_state.selected_team_count:
