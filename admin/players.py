@@ -12,7 +12,9 @@ if 'current_player' not in st.session_state:
         st.session_state.current_player = 0
 
 if 'team' not in st.session_state:
-        st.session_state.team  = "Select"
+        st.session_state.team  = None
+if 'selected_team_count' not in st.session_state:
+        st.session_state.selected_team_count = 15
 
 if  'player_count' not in st.session_state:
         st.session_state.player_count = 0
@@ -60,23 +62,38 @@ def s3_connection():
         st.error(f"Connection failure:{str(e)}")
 
 s3_client = s3_connection()
-team_names = collection_reg.distinct("TeamName")
-team_names = sorted(team_names)
-st.header("Player Registration")
+# team_names = collection_reg.distinct("TeamName")
+# team_names = sorted(team_names)
+team_list = list(collection_team.find({}, {"team":1, "player":1, "_id":0}))
+df = pd.DataFrame(team_list)
+df2 = df['team'].value_counts().reset_index()
+df2.columns = ['team', 'count']
+team_names = df2[df2['count']<15]['team'].to_list()
+
+
+col1, col2 = st.columns(2)
+with col1:
+        st.subheader("Player Registration")
+with col2:
+        st.session_state.team = None
+        st.session_state.selected_team_count = 15
+        st.session_state.player_count = 0
+        st.rerun()
 
 if st.session_state.player_count == 0:
     # Add "select" as the first option
-    teams = ["Select"] + team_names
+    teams = sorted(team_names)
     with st.form("init", clear_on_submit=False):
         st.session_state.team = st.selectbox("Select Team: ", options = teams, placeholder="Choose a team")
+        st.session_state.selected_team_count = df2[df2['team'] == st.session_state.team]['count'].values[0]
         
         # Get the total number of players
-        st.session_state.player_count = st.number_input("Total players for team",value="min", max_value=15, min_value=0, step=1)
+        st.session_state.player_count = st.number_input("Total players for team",value="min", max_value=15, min_value=st.session_state.selected_team_count, step=1)
         if st.form_submit_button(label="regsiter"):
             st.rerun()
 
 
-if st.session_state.team != "Select" and st.session_state.player_count > 0:
+if st.session_state.team != "Select" and st.session_state.player_count > st.session_state.selected_team_count:
     
 
     st.subheader(f"Register players for {st.session_state.team} ")
