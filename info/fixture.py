@@ -35,7 +35,12 @@ matches_collection = db_powerplay["matches"]
 
 list_matches = list(matches_collection.find({},{"_id":0}))
 df_matches = pd.DataFrame(list_matches)
-st.title("Cricket Tournament Fixture")
+col1, col2 = st.colummns(2)
+with col1:
+    st.page_link("https://powerplaycricket.in/", label = "Home", icon = "🏠")
+# st.title("Cricket Tournament Fixture")
+with col2:
+    st.subheader("Tournament Fixture")
 
 # Function to get team logo by matching team name
 def get_team_logo(team_name):
