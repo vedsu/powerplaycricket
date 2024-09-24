@@ -74,7 +74,12 @@ if len(df_matches) < 1:
     #         </div> """, unsafe_allow_html=True)
     # Display the image
     
-    st.image(image_url, caption="Power Play", width = 200)
+    # st.image(image_url, caption="Power Play", width = 200)
+    st.markdown(f"""
+    <div style='text-align: center;'>
+    <img  src = "{image_url}" style ="border-radius: 50%; width:120px; height:120px; margin-top:10px; box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;">
+    </div>
+    """, unsafe_allow_html = True)
 else:
     # image_url = "https://vedsubrandwebsite.s3.amazonaws.com/miscellaneous/DALL%C2%B7E+2024-09-18+12.21.28+-+A+night+cricket+scene+under+bright+floodlights+with+players+actively+playing+on+the+pitch.+The+stadium+is+filled+with+a+cheering+crowd%2C+adding+to+the+.webp"
     # st.image(image_url, caption="Power Play", use_column_width= 'auto',)
