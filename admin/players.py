@@ -75,10 +75,11 @@ col1, col2 = st.columns(2)
 with col1:
         st.subheader("Player Registration")
 with col2:
-        st.session_state.team = None
-        st.session_state.selected_team_count = 15
-        st.session_state.player_count = 0
-        st.rerun()
+        if st.button("Cancel"):
+                st.session_state.team = None
+                st.session_state.selected_team_count = 15
+                st.session_state.player_count = 0
+                st.rerun()
 
 if st.session_state.player_count == 0:
     # Add "select" as the first option
