@@ -1,8 +1,14 @@
 import streamlit as st
 import pymongo
 import pandas as pd
+
+col1, col2 = st.columns(2)
+with col1:
+    st.page_link("https://powerplaycricket.in/", label="Home", icon="🏠")
+
 # st.title("Sponsor Page")
-st.header(":blue[Dear Sponsors] :grey[Welcome to PowerPlay!] 💯 ", divider=True)
+with col2:
+    st.subheader(":blue[Dear Sponsors] :grey[Welcome to PowerPlay!] 💯 ", divider=True)
 
 # Database Connections
 @st.cache_resource
