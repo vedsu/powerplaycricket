@@ -12,14 +12,16 @@ if 'current_player' not in st.session_state:
         st.session_state.current_player = 0
 
 if 'team' not in st.session_state:
-        st.session_state.team  = "Select"
+        st.session_state.team  = None
+
 if 'selected_team_count' not in st.session_state:
         st.session_state.selected_team_count = 15
 
 if  'player_count' not in st.session_state:
         st.session_state.player_count = 0
 
-
+if 'state' not in st.session_state:
+    st.session_state.state = False
 
 
 
@@ -76,10 +78,11 @@ with col1:
         st.subheader("Player Registration")
 with col3:
         if st.button("Cancel"):
-                st.session_state.team = "Select"
-                st.session_state.selected_team_count = 15
-                st.session_state.player_count = 0
-                st.rerun()
+                 st.session_state.team = None
+                 st.session_state.selected_team_count = 0
+                 st.session_state.player_count = 0
+                 st.session_state.state = False
+                 st.rerun()
 
 if st.session_state.player_count == 0:
     # Add "select" as the first option
@@ -87,17 +90,27 @@ if st.session_state.player_count == 0:
     with st.container():
     # with st.form("init", clear_on_submit=False):
             
-        st.session_state.team = st.selectbox("Select Team: ", options = teams, index=0,placeholder="Choose a team")
+        st.session_state.team = st.selectbox("Select Team: ", options = teams,placeholder="Choose a team")
         if st.session_state.team != "Select":
                 st.session_state.selected_team_count = df2[df2['team'] == st.session_state.team]['count'].values[0]
+                st.session_state.current_player = st.session_state.selected_team_count + 1
+                st.info(f"Selected team currently has {st.session_state.selected_team_count} players.")
+                with st.form("init", clear_on_submit=False):
+                        player_count = st.number_input("Total players for team", max_value=15, min_value=st.session_state.selected_team_count, step=1)
+                        if st.form_submit_button(label="regsiter") and player_count > st.session_state.selected_team_count:
+                                    st.session_state.state = True
+                                    st.info(player_count)
+                                    st.session_state.player_count = player_count
+                                    st.info(st.session_state.player_count)
+                                    st.rerun()
         
         # Get the total number of players
-                st.session_state.player_count = st.number_input("Total players for team",value="min", max_value=15, min_value=st.session_state.selected_team_count, step=1)
-                if st.button(label="regsiter"):
-                    st.rerun()
+                # st.session_state.player_count = st.number_input("Total players for team",value="min", max_value=15, min_value=st.session_state.selected_team_count, step=1)
+                # if st.button(label="regsiter"):
+                #     st.rerun()
 
 
-if st.session_state.team != "Select" and st.session_state.player_count > st.session_state.selected_team_count:
+if st.session_state.team != "Select" and st.session_state.selected_team_count <= st.session_state.player_count and st.session_state.state == True:
     
 
     st.subheader(f"Register players for {st.session_state.team} ")
@@ -174,6 +187,7 @@ if st.session_state.team != "Select" and st.session_state.player_count > st.sess
                     collection_team.insert_one(document)
                     # Increment the player index to move to the next player
                     st.session_state.current_player += 1
+                    st.session_state.selected_team_count += 1
                     
                     # Provide feedback
                     st.success(f"Player {st.session_state.current_player} registered successfully!")
@@ -184,18 +198,20 @@ if st.session_state.team != "Select" and st.session_state.player_count > st.sess
     else:
         st.success("All players have been registered!")
         if st.button(label="register another team"):
+            st.session_state.team  = None
             st.session_state.current_player = 0
-            st.session_state.team  = "Select"
+            st.session_state.selected_team_count = 0
             st.session_state.player_count = 0
             st.rerun()
+           
 
     # Example of how to display the registered players
     if st.session_state.current_player > 0:
         st.subheader(f"{st.session_state.team} Players")
         col1, col2 = st.columns(2)
-        for i in range(st.session_state.current_player):
+        for i in range(1, st.session_state.current_player):
             with col1:
-                st.write(f"Player {i+1} registered")
+                st.write(f"Player {i} registered")
                 st.write("\n")
                 
     #         with col2:
