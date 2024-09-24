@@ -12,7 +12,7 @@ if 'current_player' not in st.session_state:
         st.session_state.current_player = 0
 
 if 'team' not in st.session_state:
-        st.session_state.team  = None
+        st.session_state.team  = "Select"
 if 'selected_team_count' not in st.session_state:
         st.session_state.selected_team_count = 15
 
@@ -76,7 +76,7 @@ with col1:
         st.subheader("Player Registration")
 with col3:
         if st.button("Cancel"):
-                st.session_state.team = None
+                st.session_state.team = "Select"
                 st.session_state.selected_team_count = 15
                 st.session_state.player_count = 0
                 st.rerun()
