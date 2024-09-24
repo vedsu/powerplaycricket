@@ -87,7 +87,7 @@ if st.session_state.player_count == 0:
     with st.container():
     # with st.form("init", clear_on_submit=False):
             
-        st.session_state.team = st.selectbox("Select Team: ", options = teams, placeholder="Choose a team")
+        st.session_state.team = st.selectbox("Select Team: ", options = teams, index=0,placeholder="Choose a team")
         if st.session_state.team != "Select":
                 st.session_state.selected_team_count = df2[df2['team'] == st.session_state.team]['count'].values[0]
         
