@@ -71,10 +71,10 @@ df2.columns = ['team', 'count']
 team_names = df2[df2['count']<15]['team'].to_list()
 
 
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 with col1:
         st.subheader("Player Registration")
-with col2:
+with col3:
         if st.button("Cancel"):
                 st.session_state.team = None
                 st.session_state.selected_team_count = 15
@@ -86,6 +86,7 @@ if st.session_state.player_count == 0:
     teams = sorted(team_names)
     with st.form("init", clear_on_submit=False):
         st.session_state.team = st.selectbox("Select Team: ", options = teams, placeholder="Choose a team")
+        
         st.session_state.selected_team_count = df2[df2['team'] == st.session_state.team]['count'].values[0]
         
         # Get the total number of players
