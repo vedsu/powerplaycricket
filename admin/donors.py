@@ -155,6 +155,8 @@ with st.form("Sponsors Details",clear_on_submit=True):
             st.rerun()
         except Exception as e:
             st.error(f"Registration Failed, {str(e)}")
+    else:
+        st.error("missing fields, fill again")
 
 
     
