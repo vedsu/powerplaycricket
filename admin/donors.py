@@ -78,6 +78,8 @@ st.sidebar.image(img, caption="QR Code for PowerPlay Cricket " + registration_nu
 
 on = st.toggle("Click photo!")
 img_file_buffer = None
+img = False
+image = None
 with st.form("Sponsors Details",clear_on_submit=True):
     
     st.subheader("Registration Form")
@@ -88,14 +90,21 @@ with st.form("Sponsors Details",clear_on_submit=True):
     payment_mode = st.radio("Payment Mode", ["QR", "Cash"], horizontal=True)
     reg_amt_paid = st.number_input("Sponsorship Amount:", min_value=0)
     if on:
+        
         img_file_buffer = st.camera_input("Take a picture",disabled=False)
+        
     else:
         image = st.file_uploader("Sponsors Image")
+
+    if img_file_buffer or image:
+        img = True
     # reg_amt_due = 2500 - reg_amt_paid
     # st.info(f"Regsitration Amount Due:{reg_amt_due}")
+    
     admin_remark = st.text_area("Description")
     submitted = st.form_submit_button(label="Register")
-    if submitted and donor_name:
+    
+    if submitted and donor_name and img:
         filename = f"{uuid.uuid4()}"
         if img_file_buffer is not None:
                     
