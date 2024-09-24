@@ -35,7 +35,7 @@ matches_collection = db_powerplay["matches"]
 
 list_matches = list(matches_collection.find({},{"_id":0}))
 df_matches = pd.DataFrame(list_matches)
-col1, col2 = st.colummns(2)
+col1, col2 = st.columns(2)
 with col1:
     st.page_link("https://powerplaycricket.in/", label = "Home", icon = "🏠")
 # st.title("Cricket Tournament Fixture")
