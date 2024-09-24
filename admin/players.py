@@ -78,7 +78,7 @@ with col1:
         st.subheader("Player Registration")
 with col3:
         if st.button("Cancel"):
-                 st.session_state.team = None
+                 st.session_state.team = "Select"
                  st.session_state.selected_team_count = 0
                  st.session_state.player_count = 0
                  st.session_state.state = False
