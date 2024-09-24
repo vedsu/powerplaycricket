@@ -95,7 +95,7 @@ with st.form("Sponsors Details",clear_on_submit=True):
     # st.info(f"Regsitration Amount Due:{reg_amt_due}")
     admin_remark = st.text_area("Description")
     submitted = st.form_submit_button(label="Register")
-    if submitted:
+    if submitted and donor_name:
         filename = f"{uuid.uuid4()}"
         if img_file_buffer is not None:
                     
