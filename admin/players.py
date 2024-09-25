@@ -71,7 +71,7 @@ if len(team_list) > 0:
         df = pd.DataFrame(team_list)
         df2 = df['team'].value_counts().reset_index()
         df2.columns = ['team', 'count']
-        team_names2 = df2[df2['count']<=5]['team'].to_list() // later update to 15
+        team_names2 = df2[df2['count']<5]['team'].to_list() // later update to 15
         team_names = team_names1 + team_names2
         team_names = np.unique(team_names)
 else:
