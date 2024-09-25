@@ -99,7 +99,7 @@ if st.session_state.player_count == 0:
                 amt_due = collection_reg.find_one({"TeamName":st.session_state.team}, {"_id":0,"RegAmtDue":1})
                 col1, col2 = st.columns(2)
                 with col2:
-                        st.warning(f"Pending Amount:{amt_due}")
+                        st.warning(f"Pending Amount:{amt_due["RegAmtDue"]}")
                 try:
                         st.session_state.selected_team_count = df2[df2['team'] == st.session_state.team]['count'].values[0]
                         st.session_state.current_player = st.session_state.selected_team_count + 1
