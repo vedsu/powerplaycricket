@@ -89,7 +89,7 @@ with st.form("Team Details",clear_on_submit=True):
     
     reg_amt_due = 2500 - reg_amt_paid
     # st.info(f"Regsitration Amount Due:{reg_amt_due}")
-    admin_remark = st.text_area("Admin Remark")
+    admin_remark = st.text_area("Payment Description")
     submitted = st.form_submit_button(label="Register")
     if submitted:
         errors = []
