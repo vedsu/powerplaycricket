@@ -126,7 +126,7 @@ if st.session_state.team != "Select" and st.session_state.selected_team_count <=
    
 
     # Loop through each player until the total number of players is reached
-    if st.session_state.current_player < st.session_state.player_count:
+    if st.session_state.current_player <= st.session_state.player_count:
         key = f"player{st.session_state.current_player}"
         st.info(f"Register Player {st.session_state.current_player} / {st.session_state.player_count}")
        
