@@ -64,14 +64,17 @@ def s3_connection():
         st.error(f"Connection failure:{str(e)}")
 
 s3_client = s3_connection()
-# team_names = collection_reg.distinct("TeamName")
-# team_names = sorted(team_names)
+team_names1 = list(collection_reg.distinct("TeamName"))
+team_names1 = sorted(team_names1)
 team_list = list(collection_team.find({}, {"team":1, "player":1, "_id":0}))
-df = pd.DataFrame(team_list)
-df2 = df['team'].value_counts().reset_index()
-df2.columns = ['team', 'count']
-team_names = df2[df2['count']<15]['team'].to_list()
-
+if len(team_list) > 0:        
+        df = pd.DataFrame(team_list)
+        df2 = df['team'].value_counts().reset_index()
+        df2.columns = ['team', 'count']
+        team_names2 = df2[df2['count']<15]['team'].to_list()
+        team_names = team_names1 + team_names2
+else:
+        team_names = sorted(team_names1)
 
 col1, col2, col3 = st.columns(3)
 with col1:
@@ -92,8 +95,13 @@ if st.session_state.player_count == 0:
             
         st.session_state.team = st.selectbox("Select Team: ", options = teams,placeholder="Choose a team")
         if st.session_state.team != "Select":
-                st.session_state.selected_team_count = df2[df2['team'] == st.session_state.team]['count'].values[0]
-                st.session_state.current_player = st.session_state.selected_team_count + 1
+                try:
+                        st.session_state.selected_team_count = df2[df2['team'] == st.session_state.team]['count'].values[0]
+                        st.session_state.current_player = st.session_state.selected_team_count + 1
+                except:
+                        st.session_state.selected_team_count = 0
+                        st.session_state.current_player =  1
+                        
                 st.info(f"Selected team currently has {st.session_state.selected_team_count} players.")
                 with st.form("init", clear_on_submit=False):
                         player_count = st.number_input("Total players for team", max_value=15, min_value=st.session_state.selected_team_count, step=1)
