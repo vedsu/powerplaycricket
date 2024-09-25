@@ -97,7 +97,7 @@ if st.session_state.player_count == 0:
         st.session_state.team = st.selectbox("Select Team: ", options = teams,placeholder="Choose a team")
         if st.session_state.team != "Select":
                 amt_due = collection_reg.find_one({"TeamName":st.session_state.team}, {"_id":0,"RegAmtDue":1})
-                with col1, col2 = st.columns(2)
+                col1, col2 = st.columns(2)
                 with col2:
                         st.warning(f"Pending Amount:{amt_due}")
                 try:
