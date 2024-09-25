@@ -15,7 +15,7 @@ if 'team' not in st.session_state:
         st.session_state.team  = None
 
 if 'selected_team_count' not in st.session_state:
-        st.session_state.selected_team_count = 15
+        st.session_state.selected_team_count = 0
 
 if  'player_count' not in st.session_state:
         st.session_state.player_count = 0
@@ -71,7 +71,7 @@ if len(team_list) > 0:
         df = pd.DataFrame(team_list)
         df2 = df['team'].value_counts().reset_index()
         df2.columns = ['team', 'count']
-        team_names2 = df2[df2['count']<15]['team'].to_list()
+        team_names2 = df2[df2['count']<=5]['team'].to_list() // later update to 15
         team_names = team_names1 + team_names2
         team_names = np.unique(team_names)
 else:
