@@ -73,6 +73,7 @@ if len(team_list) > 0:
         df2.columns = ['team', 'count']
         team_names2 = df2[df2['count']<15]['team'].to_list()
         team_names = team_names1 + team_names2
+        team_names = np.unqiue(team_names)
 else:
         team_names = sorted(team_names1)
 
