@@ -96,6 +96,10 @@ if st.session_state.player_count == 0:
             
         st.session_state.team = st.selectbox("Select Team: ", options = teams,placeholder="Choose a team")
         if st.session_state.team != "Select":
+                amt_due = collection_reg.find_one({"TeamName":st.session_state.team}, {"_id":0,"RegAmtDue":1})
+                with col1, col2 = st.columns(2)
+                with col2:
+                        st.warning(f"Pending Amount:{amt_due}")
                 try:
                         st.session_state.selected_team_count = df2[df2['team'] == st.session_state.team]['count'].values[0]
                         st.session_state.current_player = st.session_state.selected_team_count + 1
@@ -103,7 +107,8 @@ if st.session_state.player_count == 0:
                         st.session_state.selected_team_count = 0
                         st.session_state.current_player =  1
                         
-                st.info(f"Selected team currently has {st.session_state.selected_team_count} players.")
+                with col1:
+                        st.info(f"{st.session_state.team} currently has {st.session_state.selected_team_count} players.")
                 with st.form("init", clear_on_submit=False):
                         player_count = st.number_input("Total players for team", max_value=5, min_value=st.session_state.selected_team_count, step=1)#edit here 15 also
                         if st.form_submit_button(label="regsiter") and player_count > st.session_state.selected_team_count:
