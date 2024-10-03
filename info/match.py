@@ -43,10 +43,10 @@ with col1:
 with col2:
     st.subheader("Tournament Results")
 st.subheader("",divider=True)
-if list_matches:           
+if df_matches:           
     st.dataframe(df_matches)
 
-else:
+# else:
     image_url = "https://vedsubrandwebsite.s3.amazonaws.com/miscellaneous/DALL%C2%B7E+2024-09-17+12.16.40+-+A+night+scene+of+a+cricket+stadium+under+floodlights%2C+featuring+a+cricket+pitch+at+the+center.+The+stadium+is+set+for+a+major+event%2C+with+bright+flood.webp"
 
     st.markdown(f"""
