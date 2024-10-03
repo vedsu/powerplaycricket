@@ -43,7 +43,7 @@ with col1:
 with col2:
     st.subheader("Tournament Results")
 st.subheader("",divider=True)
-if df_matches:           
+if list_matches:           
     st.dataframe(df_matches)
 
 # else:
