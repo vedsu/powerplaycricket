@@ -75,12 +75,13 @@ createfixture = st.Page("admin/createfixture.py", title =" Create Fixtures", ico
 team = st.Page("admin/registration.py", title="Team Registration", icon="🧑‍🤝‍🧑")
 player = st.Page("admin/players.py", title="Player Registration", icon="❗")
 donors = st.Page("admin/donors.py", title = "Sponsors Registration", icon = ":material/money:")
+score = st.Page("admin/scoring.py", title= "Score Card", icon="📝")
 
 if st.session_state.logged_in:
     pg = st.navigation(
         {
             "Account": [logout_page],
-            "Admin": [team, player, donors, createfixture],
+            "Admin": [team, player, donors, createfixture,score],
             "Panel": [search,history,sponsors ],
             # [dashboard, bugs, alerts],
         }
