@@ -72,19 +72,22 @@ if st.session_state.stage == 0:
     with st.container():
         st.session_state.match_id = st.selectbox("Select Match", match_list)
         if st.button("check"):
-            teams = matches_collection.find_one({"MatchID": st.session_state.match_id}, {"_id": 0, "TeamA": 1, "TeamB": 1})
-            st.session_state.teamA = teams.get("TeamA")
-            st.session_state.teamB = teams.get("TeamB")
-            # players = list(player_collection.find({"team":{"$in":[st.session_state.teamA, st.session_state.teamB]}},{"_id":0,"player":1, "aadhar":1}))
-            playerA = list(player_collection.find({"team":st.session_state.teamA}, {"_id":0,"player":1, "aadhar":1}))
-            playerB = list(player_collection.find({"team":st.session_state.teamB}, {"_id":0,"player":1, "aadhar":1}))
-
-            for player in playerA:
-                player_id = str(player.get("player")) + "-" + str(player.get("aadhar"))
-                st.session_state.playerA.append(player_id)
-            for player in playerB:
-                player_id = str(player.get("player")) + "-" + str(player.get("aadhar"))
-                st.session_state.playerB.append(player_id)
+            try:
+                teams = matches_collection.find_one({"MatchID": st.session_state.match_id}, {"_id": 0, "TeamA": 1, "TeamB": 1})
+                st.session_state.teamA = teams.get("TeamA")
+                st.session_state.teamB = teams.get("TeamB")
+                # players = list(player_collection.find({"team":{"$in":[st.session_state.teamA, st.session_state.teamB]}},{"_id":0,"player":1, "aadhar":1}))
+                playerA = list(player_collection.find({"team":st.session_state.teamA}, {"_id":0,"player":1, "aadhar":1}))
+                playerB = list(player_collection.find({"team":st.session_state.teamB}, {"_id":0,"player":1, "aadhar":1}))
+    
+                for player in playerA:
+                    player_id = str(player.get("player")) + "-" + str(player.get("aadhar"))
+                    st.session_state.playerA.append(player_id)
+                for player in playerB:
+                    player_id = str(player.get("player")) + "-" + str(player.get("aadhar"))
+                    st.session_state.playerB.append(player_id)
+            except:
+                st.success("all score card updated!")
             
             
     if st.session_state.match_id != "Select":
