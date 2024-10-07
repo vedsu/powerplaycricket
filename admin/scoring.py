@@ -92,17 +92,17 @@ if st.session_state.stage == 0:
                     st.session_state.winner = st.selectbox("Select Winner", options=["Select",st.session_state.teamA, st.session_state.teamB])
                     option_player = ["Select"] + st.session_state.playerA + st.session_state.playerB
                     
-                    string = st.selectbox("Man of the Match", options=option_player)
+                    st.session_state.MoM = st.selectbox("Man of the Match", options=option_player)
                      
-                    st.session_state.MoM, st.session_state.MoMID = string.split("-")
+                    # st.session_state.MoM, st.session_state.MoMID = string.split("-")
             
                     if st.form_submit_button("update"): 
                         
                         # st.write(st.session_state.match_id,st.session_state.winner,st.session_state.MoM)
                         try:
                             matches_collection.update_one({"MatchID": st.session_state.match_id}, {"$set": {"Winner": st.session_state.winner,
-                                                                                                           "MoM": st.session_state.MoM,
-                                                                                                           "MoMID": st.session_state.MoMID }})
+                                                                                                           "MoM": st.session_state.MoM.split("-")[0],
+                                                                                                           "MoMID": st.session_state.MoM.split("-")[1] }})
                             # matches_collection.update_one({"MatchID": st.session_state.match_id}, {"$set": {"MoM": st.session_state.MoM}})
                             
                             st.success("record updated successfully!")
