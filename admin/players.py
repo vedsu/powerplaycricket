@@ -71,7 +71,7 @@ if len(team_list) > 0:
         df = pd.DataFrame(team_list)
         df2 = df['team'].value_counts().reset_index()
         df2.columns = ['team', 'count']
-        team_names2 = df2[df2['count']<5]['team'].to_list() # later update to 15
+        team_names2 = df2[df2['count']<11]['team'].to_list() # later update to 11
         team_names = team_names1 + team_names2
         team_names = np.unique(team_names)
 else:
@@ -110,7 +110,7 @@ if st.session_state.player_count == 0:
                 with col1:
                         st.info(f"{st.session_state.team} currently has {st.session_state.selected_team_count} players.")
                 with st.form("init", clear_on_submit=False):
-                        player_count = st.number_input("Total players for team", max_value=5, min_value=st.session_state.selected_team_count, step=1)#edit here 15 also
+                        player_count = st.number_input("Total players for team", max_value=11, min_value=st.session_state.selected_team_count, step=1)#edit here 11 also
                         if st.form_submit_button(label="regsiter") and player_count > st.session_state.selected_team_count:
                                     st.session_state.state = True
                                     st.info(player_count)
@@ -139,6 +139,7 @@ if st.session_state.team != "Select" and st.session_state.selected_team_count <=
         # Create the form for the current player
         with st.form(key, clear_on_submit=True):
             player = st.text_input("Name :")
+            aadhar = st.text_input("Aadhar :")
             type = st.radio("Type : ", ["Bat", "Bowl", "AR"], horizontal=True)
             # Create the FingerReader instance in debug mode.
             
@@ -197,6 +198,7 @@ if st.session_state.team != "Select" and st.session_state.selected_team_count <=
                     document = {"team":st.session_state.team , "player":player,
                                 "type":type,
                                 "photo":photo,
+                                "aadhar":aadhar,
                                 "score":[], "wicket":[], "catch":[] }
                     collection_team.insert_one(document)
                     # Increment the player index to move to the next player
