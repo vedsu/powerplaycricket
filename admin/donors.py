@@ -70,7 +70,7 @@ registration_number = f"{current_date}#{random_alpha}#{team_number}"
 
 
 # Display the QR code in sidebar
-image_url = "https://vedsubrandwebsite.s3.amazonaws.com/PowerPlayCricket/QR+Dharmender.jpg"
+image_url = "https://vedsubrandwebsite.s3.amazonaws.com/PowerPlayCricket/PowerPlayQR.jpeg"
 
 response = requests.get(image_url)
 img = Image.open(io.BytesIO(response.content))
