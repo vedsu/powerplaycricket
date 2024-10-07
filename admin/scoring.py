@@ -80,10 +80,10 @@ if st.session_state.stage == 0:
             playerB = list(player_collection.find({"team":st.session_state.teamB}, {"_id":0,"player":1, "aadhar":1}))
 
             for player in playerA:
-                player_id = str(player.get("player")) + str(player.get("aadhar"))
+                player_id = str(player.get("player")) + "-" + str(player.get("aadhar"))
                 st.session_state.playerA.append(player_id)
             for player in playerB:
-                player_id = str(player.get("player")) + str(player.get("aadhar"))
+                player_id = str(player.get("player")) + "-" + str(player.get("aadhar"))
                 st.session_state.playerB.append(player_id)
             
             
@@ -92,14 +92,18 @@ if st.session_state.stage == 0:
                     st.session_state.winner = st.selectbox("Select Winner", options=["Select",st.session_state.teamA, st.session_state.teamB])
                     option_player = ["Select"] + st.session_state.playerA + st.session_state.playerB
                     
-                    st.session_state.MoM = st.selectbox("Man of the Match", options=option_player)
+                    string = st.selectbox("Man of the Match", options=option_player)
+                     
+                    st.session_state.MoM, st.session_state.MoMID = string.split("-")
             
                     if st.form_submit_button("update"): 
                         
                         # st.write(st.session_state.match_id,st.session_state.winner,st.session_state.MoM)
                         try:
-                            matches_collection.update_one({"MatchID": st.session_state.match_id}, {"$set": {"Winner": st.session_state.winner}})
-                            matches_collection.update_one({"MatchID": st.session_state.match_id}, {"$set": {"MoM": st.session_state.MoM}})
+                            matches_collection.update_one({"MatchID": st.session_state.match_id}, {"$set": {"Winner": st.session_state.winner,
+                                                                                                           "MoM": st.session_state.MoM,
+                                                                                                           "MoMID": st.session_state.MoMID }})
+                            # matches_collection.update_one({"MatchID": st.session_state.match_id}, {"$set": {"MoM": st.session_state.MoM}})
                             
                             st.success("record updated successfully!")
                             st.session_state.stage = 1
