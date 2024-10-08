@@ -85,9 +85,9 @@ with st.form("Team Details",clear_on_submit=True):
     manager_name =  st.text_input("Manager Name")
     captain_name = st.text_input("Captain Name", )
     payment_mode = st.radio("Payment Mode", ["QR", "Cash"], horizontal= True)
-    reg_amt_paid = st.number_input("Registration Amount Paid:", min_value=0, max_value=2500)
+    reg_amt_paid = st.number_input("Registration Amount Paid:", min_value=0, max_value=700)
     
-    reg_amt_due = 2500 - reg_amt_paid
+    reg_amt_due = 700 - reg_amt_paid
     # st.info(f"Regsitration Amount Due:{reg_amt_due}")
     admin_remark = st.text_area("Payment Description")
     submitted = st.form_submit_button(label="Register")
